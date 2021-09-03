@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { SubjectsService } from './core/subjects.service';
 
 @Component({
   selector: 'app-root',
@@ -10,20 +12,33 @@ export class AppComponent implements OnInit {
   subscription2Data = [];
   subscription3Data = [];
 
-  constructor() {}
+  sub1: Subscription;
+  sub2: Subscription;
+  sub3: Subscription;
+
+  constructor(private subjectsService: SubjectsService) {}
 
   ngOnInit() {}
 
-  subscribe1() {
-
+   subscribe1() {
+    this.sub1 = this.subjectsService.observable$.subscribe(data => this.subscription1Data.push(data));
+    
   }
 
   subscribe2() {
+    this.sub2 = this.subjectsService.observable$.subscribe(data => this.subscription2Data.push(data));
 
   }
 
   subscribe3() {
+    this.sub3 = this.subjectsService.observable$.subscribe(data => this.subscription3Data.push(data));
 
+  }
+
+  ngOnDestroy() {
+    this.sub1.unsubscribe();
+    this.sub2.unsubscribe();
+    this.sub3.unsubscribe();
   }
 
 

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 
 @Injectable({
@@ -7,6 +8,8 @@ import { Injectable } from '@angular/core';
 export class SubjectsService {
   
   //Define Subject and Observable properties here
+  subject$: BehaviorSubject<string>;
+  observable$: Observable<string>;
 
 
   constructor() {
@@ -15,9 +18,17 @@ export class SubjectsService {
 
   init() {
     // Create Subject and Observable Here 
-
+    this.subject$ = new BehaviorSubject('');
+    this.observable$ = this.subject$.asObservable();
 
     // Create interval here
+    setInterval(() => {
+      const date = new Date();
+
+      // Place the following code on a single line when adding it 
+      const time = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+      this.subject$.next(time);
+    }, 3000)
 
   }
 

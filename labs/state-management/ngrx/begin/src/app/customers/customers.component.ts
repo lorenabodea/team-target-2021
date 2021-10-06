@@ -7,26 +7,27 @@ import { EntityState, CustomerSelectors } from '../store';
 import * as CustomerAction from '../store/actions';
 
 @Component({
-    selector: 'app-customers',
-    templateUrl: './customers.component.html'
+  selector: 'app-customers',
+  templateUrl: './customers.component.html',
 })
 export class CustomersComponent implements OnInit {
-    title = 'Customers';
-    customers$: Observable<Customer[]>;
-    loading$: Observable<boolean>;
+  title = 'Customers';
+  customers$: Observable<Customer[]>;
+  loading$: Observable<boolean>;
 
-    constructor(
-        private store: Store<EntityState>,
-        private customerSelectors: CustomerSelectors) {
-        this.customers$ = this.customerSelectors.customers$;
-        this.loading$ = this.customerSelectors.loading$;
-    }
+  constructor(
+    private store: Store<EntityState>,
+    private customerSelectors: CustomerSelectors
+  ) {
+    this.customers$ = this.customerSelectors.customers$;
+    this.loading$ = this.customerSelectors.loading$;
+  }
 
-    ngOnInit() {
+  ngOnInit() {
+    this.getCustomers();
+  }
 
-    }
-
-    // Add getCustomers() function here
-
-
+  getCustomers() {
+    this.store.dispatch(new CustomerAction.GetCustomers());
+  }
 }

@@ -12,14 +12,13 @@ export const initialState: CustomerState = {
   customers: [],
   customer: null,
   loading: false,
-  error: false
+  error: false,
 };
 
 export function reducer(
   state = initialState,
   action: CustomerActions.AllCustomerActions
 ): CustomerState {
-
   switch (action.type) {
     case CustomerActions.ADD_CUSTOMER: {
       return { ...state, loading: true };
@@ -29,9 +28,9 @@ export function reducer(
       return {
         ...state,
         loading: false,
-         customers: [...state.customers, { ...action.payload }]
+        customers: [...state.customers, { ...action.payload }],
       };
-    } 
+    }
 
     case CustomerActions.ADD_CUSTOMER_ERROR: {
       return { ...state, loading: false };
@@ -44,15 +43,17 @@ export function reducer(
     case CustomerActions.GET_CUSTOMERS_ERROR: {
       return {
         ...state,
-        loading: false
+        loading: false,
       };
     }
 
-    // Add the ADD_CUSTOMERS_SUCCESS Reducer Here
-
-
-
-    
+    case CustomerActions.GET_CUSTOMERS_SUCCESS: {
+      return {
+        ...state,
+        customers: action.payload,
+        loading: false,
+      };
+    }
 
     case CustomerActions.GET_CUSTOMER: {
       return { ...state, loading: true };
@@ -61,7 +62,7 @@ export function reducer(
     case CustomerActions.GET_CUSTOMER_ERROR: {
       return {
         ...state,
-        loading: false
+        loading: false,
       };
     }
 
@@ -69,7 +70,7 @@ export function reducer(
       return {
         ...state,
         customer: action.payload,
-        loading: false
+        loading: false,
       };
     }
 
@@ -77,7 +78,7 @@ export function reducer(
       return {
         ...state,
         loading: true,
-        customers: state.customers.filter(h => h !== action.payload)
+        customers: state.customers.filter((h) => h !== action.payload),
       };
     }
 
@@ -90,19 +91,19 @@ export function reducer(
       return {
         ...state,
         customers: [...state.customers, action.payload.requestData],
-        loading: false
+        loading: false,
       };
     }
 
     case CustomerActions.UPDATE_CUSTOMER: {
       return {
         ...state,
-        customers: state.customers.map(h => {
+        customers: state.customers.map((h) => {
           if (h.id === action.payload.id) {
             state.loading = true;
           }
           return h;
-        })
+        }),
       };
     }
 
@@ -114,38 +115,39 @@ export function reducer(
       return {
         ...state,
         loading: false,
-        customers: state.customers.map(h => {
+        customers: state.customers.map((h) => {
           if (h.id === action.payload.requestData.id) {
             // Huh? No idea what the error is!
             state.error = true;
           }
           return h;
-        })
+        }),
       };
     }
 
     case CustomerActions.SET_CUSTOMER_LOADING: {
       return {
         ...state,
-        loading: action.payload == null ? true : action.payload
+        loading: action.payload == null ? true : action.payload,
       };
     }
   }
   return state;
 }
 
-function modifyCustomerState(customerState: CustomerState, customerChanges: Partial<Customer>): CustomerState {
-
+function modifyCustomerState(
+  customerState: CustomerState,
+  customerChanges: Partial<Customer>
+): CustomerState {
   return {
     ...customerState,
     loading: false,
-    customers: customerState.customers.map(h => {
+    customers: customerState.customers.map((h) => {
       if (h.id === customerChanges.id) {
         return { ...h, ...customerChanges };
       } else {
         return h;
       }
-    })
+    }),
   };
-
 }

@@ -6,19 +6,22 @@ import { Store } from '@ngrx/store';
 import { CustomersService } from './customers.service';
 
 @Component({
-    selector: 'app-customers',
-    templateUrl: './customers.component.html'
+  selector: 'app-customers',
+  templateUrl: './customers.component.html',
 })
 export class CustomersComponent implements OnInit {
-    title = 'Customers';
+  title = 'Customers';
+  customers$: Observable<Customer[]>;
+  loading$: Observable<boolean>;
 
+  constructor(private customersService: CustomersService) {
+    this.loading$ = this.customersService.loading$;
+  }
+  ngOnInit() {
+    this.getCustomers();
+  }
 
-    constructor() {
-
-    }
-
-    ngOnInit() {
-
-    }
-
+  getCustomers() {
+    this.customers$ = this.customersService.getAll();
+  }
 }

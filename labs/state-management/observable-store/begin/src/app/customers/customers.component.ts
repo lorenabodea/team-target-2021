@@ -2,20 +2,23 @@ import { Component, OnInit } from '@angular/core';
 
 import { Customer } from '../core/model/customer';
 import { Observable } from 'rxjs';
-
+import { CustomersService } from './customers.service';
 
 @Component({
-    selector: 'app-customers',
-    templateUrl: './customers.component.html'
+  selector: 'app-customers',
+  templateUrl: './customers.component.html',
 })
 export class CustomersComponent implements OnInit {
-    title = 'Customers';
+  title = 'Customers';
+  customers$: Observable<Customer[]>;
 
+  constructor(private readonly customersService: CustomersService) {}
 
-    constructor() {}
+  ngOnInit() {
+    this.getCustomers();
+  }
 
-    ngOnInit() {
-
-    }
-
+  getCustomers() {
+    this.customers$ = this.customersService.getAll();
+  }
 }

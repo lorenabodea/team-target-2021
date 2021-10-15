@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { AuthGuard } from './core/auth.guard';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'heroes' },
@@ -15,5 +16,6 @@ export const routes: Routes = [
       import('./villains/villains.module').then((m) => m.VillainsModule),
 
     data: { preload: true },
+    canLoad: [AuthGuard],
   },
 ];

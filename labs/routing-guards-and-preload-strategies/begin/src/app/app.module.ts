@@ -2,10 +2,14 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import { PreloadAllModules, RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { CoreModule } from './core';
+import {
+  CoreModule,
+  NetworkAwarePreloadStrategy,
+  PreloadSelectedModulesList,
+} from './core';
 import { routes } from './routes';
 
 @NgModule({
@@ -16,9 +20,9 @@ import { routes } from './routes';
     HttpClientModule,
     RouterModule.forRoot(routes, {
       // Uncomment the line of code below. Put the Preload Strategy here
-      // preloadingStrategy: PreloadAllModules,
-      // preloadingStrategy: PreloadSelectedModulesList,
-      // preloadingStrategy: NetworkAwarePreloadStrategy,
+      //preloadingStrategy: PreloadAllModules,
+      //preloadingStrategy: PreloadSelectedModulesList,
+      preloadingStrategy: NetworkAwarePreloadStrategy,
       // preloadingStrategy: PreloadAllModules,
       relativeLinkResolution: 'legacy',
     }),
